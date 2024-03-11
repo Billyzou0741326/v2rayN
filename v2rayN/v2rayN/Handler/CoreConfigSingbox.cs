@@ -426,11 +426,6 @@ namespace v2rayN.Handler
                                 transport.path = Utile.IsNullOrEmpty(node.path) ? null : node.path;
                             }
                         }
-                        else
-                        {
-                            transport = null;
-                        }
-
                         break;
 
                     case nameof(ETransport.ws):
@@ -458,11 +453,12 @@ namespace v2rayN.Handler
                         break;
 
                     default:
-                        transport = null;
                         break;
                 }
-
-                outbound.transport = transport;
+                if (transport.type != null)
+                {
+                    outbound.transport = transport;
+                }
             }
             catch (Exception ex)
             {
@@ -877,7 +873,7 @@ namespace v2rayN.Handler
                 }
 
                 GenLog(singboxConfig);
-                GenDns(new(), singboxConfig);
+                //GenDns(new(), singboxConfig);
                 singboxConfig.inbounds.Clear(); // Remove "proxy" service for speedtest, avoiding port conflicts.
                 singboxConfig.outbounds.RemoveAt(0);
 
